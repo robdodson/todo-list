@@ -115,7 +115,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
               <paper-material elevation="1">
                 <todo-input on-add-todo="addTodo"
-                            on-reset-todos="reset">
+                            on-reset-todos="resetTodos">
                 </todo-input>
               </paper-material>
             </section>
@@ -141,6 +141,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </paper-header-panel>
     </paper-drawer-panel>
 
+    <!-- Service Worker -->
     <paper-toast id="caching-complete"
                  duration="6000"
                  text="Caching complete! This app will work offline.">
@@ -155,10 +156,17 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       </platinum-sw-cache>
     </platinum-sw-register>
 
-    <iron-localstorage id="localStorage"
+    <!-- Firebase -->
+    <firebase-collection
+      location="https://polymer-todo.firebaseio.com/robdodson"
+      data="{{todos}}">
+    </firebase-collection>
+
+    <!-- Local Storage -->
+    <!-- <iron-localstorage id="localStorage"
                        name="starter-kit-todo"
                        value="{{todos}}">
-    </iron-localstorage>
+    </iron-localstorage> -->
 
   </template>
 

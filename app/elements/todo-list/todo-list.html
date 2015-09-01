@@ -26,11 +26,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
   <template>
     <p hidden="[[_todosEmpty(todos.length)]]">No more todos!</p>
     <template is="dom-repeat"
-              items="{{todos}}"
+              items="[[todos]]"
               as="todo"
-              filter="{{_computeFilter(filterBy)}}"
+              filter="[[_computeFilter(filterBy)]]"
               observe="isComplete">
-      <todo-item todo="{{todo}}"></todo-item>
+      <todo-item todo="[[todo]]"></todo-item>
     </template>
   </template>
   <script>

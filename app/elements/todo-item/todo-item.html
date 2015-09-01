@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/iron-flex-layout/classes/iron-flex-layout.html">
 <link rel="import" href="../../bower_components/paper-material/paper-material.html">
@@ -70,12 +71,12 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       no corresponding js property so we need to write a literal attribute
       value, which is what $= does. -->
       <paper-checkbox id="checkbox"
-                      checked="{{todo.isComplete}}"
+                      checked="[[todo.isComplete]]"
                       aria-labelledby$="[[_computeLabelId(todo.uid)]]"></paper-checkbox>
 
       <paper-input id="[[_computeLabelId(todo.uid)]]"
                    class="flex"
-                   value="{{todo.label}}"
+                   value="[[todo.label]]"
                    no-label-float
                    on-keypress="_checkConfirmation"></paper-input>
 
@@ -148,9 +149,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       },
 
       _onDelete: function() {
-        this.fire('delete-todo', {todo: this.todo});
+        this.fire('delete-todo', {
+          todo: this.todo
+        });
       }
-      
+
     });
   </script>
 </dom-module>

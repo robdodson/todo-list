@@ -93,6 +93,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
 
+      observers: ['_inform(todos.*)'],
+
       signIn: function() {
         this.$.auth.login();
       },
@@ -107,6 +109,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this.userLocation = [this.location, 'users', this.user.uid].join('/');
           console.log('userLocation', this.userLocation);
         }
+      },
+
+      _inform: function() {
+        // no-op to see if we can get todos updating
       }
 
     });

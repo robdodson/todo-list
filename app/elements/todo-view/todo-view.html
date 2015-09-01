@@ -15,6 +15,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <!-- Paper elements -->
 <link rel="import" href="../../bower_components/paper-drawer-panel/paper-drawer-panel.html">
 <link rel="import" href="../../bower_components/paper-header-panel/paper-header-panel.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
 <link rel="import" href="../../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
@@ -22,6 +23,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <!-- Add your elements here -->
 <link rel="import" href="../../styles/app-theme.html">
+<link rel="import" href="../todo-data/todo-data.html">
 <link rel="import" href="../todo-list/todo-list.html">
 <link rel="import" href="../todo-input/todo-input.html">
 <link rel="import" href="../todo-icons/todo-icons.html">
@@ -165,6 +167,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     }
   </style>
   <template>
+
+    <todo-data location="https://polymer-todo.firebaseio.com"
+               todos="{{todos}}">
+    </todo-data>
+
     <paper-drawer-panel id="paperDrawerPanel">
       <div drawer>
 
@@ -203,7 +210,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="app-name flex">Todos</div>
 
             <paper-button class="clear-btn"
-                          on-tap="clearTodos">
+                          on-tap="clearCompletedTodos">
               Clear Completed
             </paper-button>
 
@@ -217,8 +224,8 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
         <!-- Main Content -->
         <div class="content">
-          <todo-list todos="{{todos}}"
-                     filter-by="{{route}}"
+          <todo-list todos="[[todos]]"
+                     filter-by="[[route]]"
                      on-delete-todo="deleteTodo">
           </todo-list>
           <todo-input on-add-todo="addTodo"></todo-input>
@@ -239,25 +246,46 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
 
-      addTodo: function(e) {
-        this.push('todos', {
-          label: e.detail.value,
+      // Add todo to Firebase
+      addTodo: function(e, detail) {
+        this.todos = this.todos.concat({
+          label: detail.value,
           isComplete: false
         });
       },
 
+      // Remove todo from Firebase usings its unique ID
       deleteTodo: function(e) {
-        this.arrayDelete('todos', e.detail.todo);
+        var uid = e.detail.uid;
+        this.todos = this.todos.filter(function(todo) {
+          return todo.uid !== uid;
+        });
       },
 
-      clearTodos: function() {
-        for (var i = 0; i < this.todos.length; i++) {
-          var todo = this.todos[i];
-          if (todo.isComplete) {
-            this.splice('todos', i--, 1);
-          }
-        }
-      }
+      // Toggle isComplete state of todo in Firebase using its unique ID
+      toggleTodo: function(e) {
+        var uid = e.detail.uid;
+        var isComplete = e.detail.isComplete;
+        this.todos = this.todos.map(function(todo) {
+          return todo.uid !== uid ? todo : (todo.isComplete = isComplete);
+        });
+      },
+
+      // Find todo by index, then update its label value in Firebase
+      editTodo: function(e) {
+        var uid = e.detail.uid;
+        var label = e.detail.label;
+        this.todos = this.todos.map(function(todo) {
+          return todo.uid !== uid ? todo : (todo.label = label);
+        });
+      },
+
+      // Remove all completed todos from Firebase
+      clearCompletedTodos: function() {
+        this.todos = this.todos.filter(function(todo) {
+          return !todo.isComplete;
+        });
+      },
 
     });
   </script>

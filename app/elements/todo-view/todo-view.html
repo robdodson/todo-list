@@ -94,7 +94,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       /* Height of the scroll area */
       .content {
         height: 900px;
-        padding: 64px 16px 0;
+        padding: 32px 16px 0;
       }
 
       todo-list {
@@ -107,6 +107,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       todo-input {
         margin: 0 auto;
+      }
+
+      /* Desktop and above */
+      @media (min-width: 640px) {
+        .content {
+          padding: 64px 16px 0;
+        }
       }
     </style>
 

@@ -22,10 +22,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       .no-more-msg {
         min-height: 40px;
         font-family: 'Roboto Slab';
-        font-size: 20px;
+        font-size: 16px;
+        text-align: center;
         color: #BDBDBD;
         cursor: default;
-        padding-left: 67px;
         -webkit-user-select: none;
         -moz-user-select: none;
         -ms-user-select: none;
@@ -37,7 +37,22 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       }
 
       todo-item {
-        margin: 16px 0;
+        margin: 0;
+      }
+
+      /* Desktop and above */
+      @media (min-width: 640px) {
+
+        .no-more-msg {
+          font-size: 20px;
+          padding-left: 67px;
+          text-align: left;
+        }
+
+        todo-item {
+          margin: 16px 0;
+        }
+
       }
     </style>
 

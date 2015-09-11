@@ -35,7 +35,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       paper-checkbox {
         /* Checkbox has 8px of extra space on top so have to tweak it to center */
         margin-top: -4px;
-        margin-right: 20px;
+        margin-right: 8px;
       }
 
       paper-checkbox[checked] + .label {
@@ -47,7 +47,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         margin-top: -4px;
         --paper-input-container-input: {
           font-family: 'Roboto Slab';
-          font-size: 20px;
+          font-size: 14px;
           text-overflow: ellipsis;
         };
         --paper-input-container-underline: {
@@ -68,6 +68,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       :host:hover .btn-cancel,
       :host([active]) .btn-cancel {
         opacity: 1;
+      }
+
+      /* BREAKPOINTS */
+
+      /* Desktop and above */
+      @media (min-width: 640px) {
+
+        paper-checkbox {
+          margin-right: 20px;
+        }
+
+        /* Possible bug. Seems like you can't have more than 1 custom prop */
+        /*paper-input {
+          --paper-input-container-input: {
+            font-size: 20px;
+          };
+        }*/
+
       }
     </style>
 

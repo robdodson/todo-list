@@ -10,6 +10,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
 <link rel="import" href="../../bower_components/polymer/polymer.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../todo-actions/todo-actions.html">
 
 <dom-module id="todo-input">
 
@@ -77,7 +78,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
                    on-keydown="_checkAdd">
       </paper-input>
 
-      <paper-button on-tap="_add">Add</paper-button>
+      <paper-button on-tap="_addTodo">Add</paper-button>
 
     </div>
 
@@ -92,13 +93,13 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     // Listen for ENTER key
     _checkAdd: function(e) {
       if (e.keyCode === 13) {
-        this._add();
+        this._addTodo();
       }
     },
 
-    _add: function() {
+    _addTodo: function() {
       if (this.$.todoInput.value) {
-        this.fire('add-todo', {value: this.$.todoInput.value});
+        TodoActions.addItem(this.$.todoInput.value);
         this.$.todoInput.value = null;
       }
     }

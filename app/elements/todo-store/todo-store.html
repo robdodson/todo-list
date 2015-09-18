@@ -1,0 +1,55 @@
+<link rel="import" href="../reflux-import/reflux-import.html">
+<link rel="import" href="../todo-actions/todo-actions.html">
+
+<script>
+  var localStorageKey = 'todos';
+
+  var TodoStore = Reflux.createStore({
+    listenables: [TodoActions],
+    onAddItem: function(label) {
+      this.updateTodos(this.todos.concat([{
+        isComplete: false,
+        label: label
+      }]));
+    },
+    onToggleItem: function(item) {
+      item.isComplete = !item.isComplete;
+      this.updateTodos(this.todos);
+    },
+    onEditItem: function(item, label) {
+      item.label = label;
+      this.updateTodos(this.todos);
+    },
+    onDeleteItem: function(item) {
+      this.updateTodos(this.todos.filter(function(todo) {
+        return todo !== item;
+      }));
+    },
+    onClearCompleted: function() {
+      this.updateTodos(this.todos.filter(function(todo) {
+        return !todo.isComplete;
+      }));
+    },
+    updateTodos: function(todos) {
+      // Persist to localStorage
+      localStorage.setItem(localStorageKey, JSON.stringify(todos));
+
+      this.todos = todos;
+      this.trigger(todos);
+    },
+    getInitialState: function() {
+      var loadedTodos = localStorage.getItem(localStorageKey);
+      if (!loadedTodos) {
+        this.todos = [
+          {
+            isComplete: false,
+            label: 'My first todo!'
+          }
+        ];
+      } else {
+        this.todos = JSON.parse(loadedTodos);
+      }
+      return this.todos;
+    }
+  });
+</script>

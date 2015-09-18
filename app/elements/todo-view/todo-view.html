@@ -24,6 +24,9 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 <link rel="import" href="../todo-input/todo-input.html">
 <link rel="import" href="../todo-icons/todo-icons.html">
 
+<!-- Reflux -->
+<link rel="import" href="../todo-actions/todo-actions.html">
+<link rel="import" href="../todo-store/todo-store.html">
 
 <dom-module id="todo-view">
 
@@ -148,7 +151,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
             <div class="app-name flex">Todos</div>
 
             <paper-button class="clear-btn"
-                          on-tap="clearTodos">
+                          on-tap="_clearTodos">
               Clear Completed
             </paper-button>
 
@@ -163,12 +166,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         <!-- Main Content -->
         <div class="content">
 
-          <todo-list todos="{{todos}}"
-                     filter-by="{{route}}"
-                     on-delete-todo="deleteTodo">
+          <todo-list todos="[[todos]]"
+                     filter-by="[[route]]">
           </todo-list>
 
-          <todo-input on-add-todo="addTodo"></todo-input>
+          <todo-input></todo-input>
 
         </div>
       </paper-header-panel>
@@ -188,24 +190,16 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 
       },
 
-      addTodo: function(e) {
-        this.push('todos', {
-          label: e.detail.value,
-          isComplete: false
-        });
+      attached: function() {
+        TodoStore.listen(function(todos) {
+          this.todos = todos;
+        }.bind(this));
+
+        this.todos = TodoStore.getInitialState();
       },
 
-      deleteTodo: function(e) {
-        this.arrayDelete('todos', e.detail.todo);
-      },
-
-      clearTodos: function() {
-        for (var i = 0; i < this.todos.length; i++) {
-          var todo = this.todos[i];
-          if (todo.isComplete) {
-            this.splice('todos', i--, 1);
-          }
-        }
+      _clearTodos: function() {
+        TodoActions.clearCompleted();
       },
 
       // Close drawer after menu item is selected if drawerPanel is narrow

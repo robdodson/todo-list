@@ -44,11 +44,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     <p class="no-more-msg" hidden="[[_todosEmpty(todos.length)]]">No more todos! You're all caught up</p>
 
     <template is="dom-repeat"
-              items="{{todos}}"
+              items="[[todos]]"
               as="todo"
               filter="{{_computeFilter(filterBy)}}"
               observe="isComplete">
-      <todo-item todo="{{todo}}"></todo-item>
+      <todo-item todo="[[todo]]"></todo-item>
     </template>
 
   </template>
